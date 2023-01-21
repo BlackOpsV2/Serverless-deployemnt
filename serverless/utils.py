@@ -1,15 +1,16 @@
-import json
 import base64
 import itertools
+import json
+from io import BytesIO
 
 from PIL import Image
 
-from io import BytesIO
 
 def decode_base64_to_image(encoding: str) -> Image:
     content = encoding.split(";")[1]
     image_encoded = content.split(",")[1]
     return Image.open(BytesIO(base64.b64decode(image_encoded)))
+
 
 def load_label_mapping(mapping_file_path):
     """
@@ -42,6 +43,7 @@ def load_label_mapping(mapping_file_path):
             )
         mapping[key] = new_value
     return mapping
+
 
 def map_class_to_label(probs, mapping=None, lbl_classes=None):
     """

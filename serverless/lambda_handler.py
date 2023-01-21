@@ -1,13 +1,10 @@
 import json
-
-import torch
-import torchvision.transforms as T
-import torch.nn.functional as F
-
-from PIL import Image
-
 from typing import Dict
 
+import torch
+import torch.nn.functional as F
+import torchvision.transforms as T
+from PIL import Image
 from utils import decode_base64_to_image, load_label_mapping, map_class_to_label
 
 model = torch.jit.load("model.scripted.pt")
@@ -29,6 +26,7 @@ response_headers = {
 
 categories = load_label_mapping("index_to_name.json")
 
+
 def inference(image: Image) -> Dict[str, int]:
     img_tensor = predict_transforms(image).unsqueeze(0)
 
@@ -38,6 +36,7 @@ def inference(image: Image) -> Dict[str, int]:
         preds = F.softmax(logits, dim=-1)
 
     return preds
+
 
 def handle_request(event, context):
     print(f"Lambda function ARN: {context.invoked_function_arn}")
