@@ -5,7 +5,6 @@ from pathlib import Path
 import requests
 from requests import Response
 
-
 url = ""
 
 
@@ -16,7 +15,7 @@ def test_endpoint():
         prefix = f"data:image/{ext};base64,"
         base64_data = prefix + base64.b64encode(f.read()).decode("utf-8")
 
-    payload = json.dumps({"data": [base64_data]})
+    payload = json.dumps({"body": [base64_data]})
 
     headers = {"Content-Type": "application/json"}
 
@@ -25,6 +24,6 @@ def test_endpoint():
     )
     print(f"response: {response.text}")
     data = json.loads(response.get_data(as_text=True))
-    
+
     assert response.status_code == 200
     assert data["statusCode"] == 200
